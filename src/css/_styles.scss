@@ -1,0 +1,54 @@
+
+$bgColor: #9acd32;
+$width: 300px;
+$imageWidth: 32px;
+
+
+.container {
+	
+	position: relative;
+	width: $width;
+	
+	
+	> .ddlist {
+		position: absolute;
+		
+		background-color: white;
+		
+		padding: 0;
+		margin: 0;
+		
+		display: none;
+		
+		
+		> .dditem {
+			list-style-type: none;
+			
+		}
+		
+		> .dditem:HOVER {
+			background-color: $bgColor;
+		}
+		
+	}
+}
+
+
+.-status-selected {
+	background-color: $bgColor;
+}
+
+.-clear-both {
+	clear: both;
+}
+
+
+.-float-side1 {
+	float: left;
+	width: $imageWidth;
+}
+	
+.-float-side2 {
+	float: right;
+	width: $width - $imageWidth;
+}
