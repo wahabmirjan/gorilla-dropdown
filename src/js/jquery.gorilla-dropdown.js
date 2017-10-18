@@ -196,31 +196,31 @@
 					
 					
 					// Set a data object with the current index and pass it to session storage
-					var lastDropdownClicked = {
-							elementIndex: index
+					var sessionStorageData = {
+							indexOfLastDropdownClicked: index
 					};
 					
-					sessionStorage.setItem('lastDropdownClicked', JSON.stringify(lastDropdownClicked));
+					sessionStorage.setItem(dropdownClassName, JSON.stringify(sessionStorageData));
 					
 					
 					
 					 
 					// Set up an event listener so that clicking anywhere outside the dropdown, or clicking on another dropdown will close our dropdown menu
 					// Details: https://stackoverflow.com/questions/152975/how-do-i-detect-a-click-outside-an-element?page=3#8603563
-					$(document).click(lastDropdownClicked, function(event) {
+					$(document).click(sessionStorageData, function(event) {
 						
 						
 						// Retrieve the value of the last clicked object from session storage
-				        var lastDropdownClicked = $.parseJSON(sessionStorage.getItem('lastDropdownClicked'));
+				        var dataFromSessionStorage = $.parseJSON(sessionStorage.getItem(dropdownClassName));
 						
 						
 						// check up the tree of the click target to check whether user has clicked outside of menu, of another dropdown menu was clicked
 						if (($(event.target).closest(dropdownClassSelector).length==0) || 
-							(lastDropdownClicked.elementIndex != event.data.elementIndex)) {
+							(dataFromSessionStorage.indexOfLastDropdownClicked != event.data.indexOfLastDropdownClicked)) {
 							
 							// Hide the dropdown menu
 							// Details: https://stackoverflow.com/questions/46779305/retrieving-the-id-guid-for-a-dom-element/46779437
-							$(dropdownClassSelector).eq(event.data.elementIndex).find(".ddlist").hide();
+							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".ddlist").hide();
 							
 							
 							// This event listener has done its job so we can unbind it.
@@ -228,7 +228,7 @@
 						}
 						
 						
-					}); // End of: $(document).click(lastDropdownClicked, function(event) {
+					}); // End of: $(document).click(sessionStorageData, function(event) {
 					
 				}); // End of: $(divWrapper).find(".current").click(function () {
 				
