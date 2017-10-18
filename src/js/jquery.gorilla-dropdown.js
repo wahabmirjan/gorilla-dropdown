@@ -1,11 +1,10 @@
 (function ($) {
-
-	$.fn.ddGorilla = function(test) {
+	
+	$.fn.gorillaDropdown = function() {
 		
 		// This is the name of the CSS namespace, so we do not have CSS naming conflicts
 		var dropdownClassName = "gorilla-dropdown";
-		var dropdownClass = "." + dropdownClassName;
-		
+		var dropdownClassSelector = "." + dropdownClassName;
 		
 		
 		if (this.is("select")) {
@@ -187,50 +186,73 @@
 				
 				// Clicking on the menu item container to open it
 				$(divWrapper).find(".current").click(function () {
-					$(this).closest(dropdownClass).find(".ddlist").toggle();
+					
+					// Toggle the element selected
+					$(this).closest(dropdownClassSelector).find(".ddlist").toggle();
 					
 					
-					// TODO - Must revisit 
-					// Set up an event listener so that clicking anywhere outside will close the dropdown menu
+					// Get the index of the current element in relation to all other similar dropdown elements
+					var index = $(dropdownClassSelector).index( $(this).closest(dropdownClassSelector) );
+					
+					
+					// Set a data object with the current index and pass it to session storage
+					var lastDropdownClicked = {
+							elementIndex: index
+					};
+					
+					sessionStorage.setItem('lastDropdownClicked', JSON.stringify(lastDropdownClicked));
+					
+					
+					
+					 
+					// Set up an event listener so that clicking anywhere outside the dropdown, or clicking on another dropdown will close our dropdown menu
 					// Details: https://stackoverflow.com/questions/152975/how-do-i-detect-a-click-outside-an-element?page=3#8603563
-					$("html").click(function(event) {
+					$(document).click(lastDropdownClicked, function(event) {
 						
-						//check up the tree of the click target to check whether user has clicked outside of menu
-						if ($(event.target).closest(dropdownClass).length==0) {
+						
+						// Retrieve the value of the last clicked object from session storage
+				        var lastDropdownClicked = $.parseJSON(sessionStorage.getItem('lastDropdownClicked'));
+						
+						
+						// check up the tree of the click target to check whether user has clicked outside of menu, of another dropdown menu was clicked
+						if (($(event.target).closest(dropdownClassSelector).length==0) || 
+							(lastDropdownClicked.elementIndex != event.data.elementIndex)) {
 							
 							// Hide the dropdown menu
-							$(dropdownClass).find(".ddlist").hide();
-							
+							// Details: https://stackoverflow.com/questions/46779305/retrieving-the-id-guid-for-a-dom-element/46779437
+							$(dropdownClassSelector).eq(event.data.elementIndex).find(".ddlist").hide();
 							
 							
 							// This event listener has done its job so we can unbind it.
 							$(this).unbind(event);
 						}
 						
-					});
-				});
+						
+					}); // End of: $(document).click(lastDropdownClicked, function(event) {
+					
+				}); // End of: $(divWrapper).find(".current").click(function () {
+				
 				
 				
 				// Selecting an item from the dropdown list
 				$(divWrapper).find(".dditem").click(function () {
 					
 					// Get the HTML of the item to the current item
-					$(this).closest(dropdownClass).find(".current").html( $(this).html() );
+					$(this).closest(dropdownClassSelector).find(".current").html( $(this).html() );
 					
 					
 					// Hide the drop down
-					$(this).closest(dropdownClass).find(".ddlist").hide();
+					$(this).closest(dropdownClassSelector).find(".ddlist").hide();
 					
 					// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
 					$(this).addClass("-status-selected").siblings().removeClass("-status-selected");
 				});
 				
 				
-				
 			}); // End of: return this.each(function()
 		
 		} // End of: if (this.is("select"))
 		
-	}; // End of: $.fn.ddGorilla = function()
+	}; // End of: $.fn.gorillaDropdown = function()
 
 } (jQuery));
