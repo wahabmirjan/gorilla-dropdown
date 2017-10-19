@@ -1,16 +1,81 @@
 (function ($) {
 	
-	$.fn.gorillaDropdown = function() {
+	$.fn.gorillaDropdown = function(options) {
+		
+		
+		/*
+		
+		By default, this plugin will convert the following structure
+		
+		<select id="s2" class="some-class">
+			<option value="saab" data-imgsrc="http://url/to/saab/logo" data-description="Description about Saab">Saab</option>
+			<option value="mercedes" data-imgsrc="http://url/to/mercedes/logo" data-description="Description about Mercedes">Mercedes</option>
+		</select>
+		
+		
+		
+		Into the following:
+		
+		<div id="s2" class="some-class gorilla-dropdown">
+			
+			<div class="container" style="width: 300px;">
+				
+			<div class="current collapsed" style="border-width: 1px;">Select</div>
+				
+				<ul class="ddlist">
+					
+					<li class="dditem">
+						<div class="-float-side1">
+							<img src="http://url/to/saab/logo">
+						</div>
+						
+						<div class="-float-side2">
+							<div>Saab</div>
+							<div>Description about Saab</div>
+						</div>
+						
+						<input value="saab" type="hidden">
+						<div class="-clear-both"></div>
+					</li>
+					
+					<li class="dditem">
+						<div class="-float-side1">
+							<img src="http://url/to/mercedes/logo">
+						</div>
+						<div class="-float-side2">
+							<div>Mercedes</div>
+							<div>Description about Toyota</div>
+						</div>
+						<input value="mercedes" type="hidden">
+						<div class="-clear-both"></div>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+		*/
+		
+		
+		
+		// Setting default settings and extending user options if there are any
+		var settings = $.extend({
+			
+			// These are the defaults:
+			width: 300
+			
+		}, options);
+		
+		
 		
 		// This is the name of the CSS namespace, so we do not have CSS naming conflicts
-		var dropdownClassName = "gorilla-dropdown";
-		var dropdownClassSelector = "." + dropdownClassName;
+		var dropdownNamespace = "gorilla-dropdown";
+		var dropdownClassSelector = "." + dropdownNamespace;
 		
-		
+				
 		if (this.is("select")) {
 			
 			return this.each(function() {
-				
 				
 				// REFORMAT HTML ELEMENT STRUCTURE
 				
@@ -25,14 +90,17 @@
 				});
 				
 				
-				$(divWrapper).addClass(dropdownClassName);
-				
+				$(divWrapper).addClass(dropdownNamespace);
 				
 				
 				
 				var divContainer = $("<div>", {
-					class: "container"
+					class: "container",
+					css: {
+						width: settings.width + "px"
+					}
 				});
+				
 				
 				// Append divContainer to divWrapper
 				$(divWrapper).append(divContainer);
@@ -71,7 +139,7 @@
 					
 					if (imgsrc != undefined) {
 						
-						var aside1 = $("<div>", {
+						var side1 = $("<div>", {
 							class: "-float-side1",
 						});
 						
@@ -80,8 +148,8 @@
 						});
 						
 						
-						$(aside1).append(img);
-						$(li).append(aside1);
+						$(side1).append(img);
+						$(li).append(side1);
 						
 						
 						$(this).removeAttr("data-imgsrc");
@@ -94,7 +162,7 @@
 					
 					if ((ddText != "") || (description != undefined)) {
 						
-						var aside2 = $("<aside>", {
+						var side2 = $("<div>", {
 							class: "-float-side2",
 						});
 						
@@ -105,7 +173,7 @@
 								text: ddText
 							});
 							
-							$(aside2).append(divText);
+							$(side2).append(divText);
 						}
 						
 						
@@ -115,14 +183,14 @@
 								text: description
 							});
 							
-							$(aside2).append(divDescription);
+							$(side2).append(divDescription);
 							
 							
 							$(this).removeAttr("data-description");
 						}
 						
 						
-						$(li).append(aside2);
+						$(li).append(side2);
 					}
 					
 					
@@ -202,7 +270,7 @@
 							indexOfLastDropdownClicked: index
 					};
 					
-					sessionStorage.setItem(dropdownClassName, JSON.stringify(sessionStorageData));
+					sessionStorage.setItem(dropdownNamespace, JSON.stringify(sessionStorageData));
 					
 					
 					
@@ -213,7 +281,7 @@
 						
 						
 						// Retrieve the value of the last clicked object from session storage
-				        var dataFromSessionStorage = $.parseJSON(sessionStorage.getItem(dropdownClassName));
+				        var dataFromSessionStorage = $.parseJSON(sessionStorage.getItem(dropdownNamespace));
 						
 						
 						// check up the tree of the click target to check whether user has clicked outside of menu, of another dropdown menu was clicked
