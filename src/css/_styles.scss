@@ -1,34 +1,88 @@
 
-$bgColor: #9acd32;
+$bgColor: white;
+$bgColorActive: #9acd32;
+$borderColor: #C0C0C0;
+
 $width: 300px;
-$imageWidth: 32px;
+$borderWidth: 1px;
+$padding: 5px;
+
 
 
 .container {
 	
 	position: relative;
+	
 	width: $width;
 	
 	
-	> .ddlist {
+	> .current {
+		
+		box-sizing: border-box;
+		
+		width: 100%;
+		border: $borderWidth $borderColor solid;
+		padding: $padding;
+		
+	}
+	
+	
+	> .current.collapsed:after {
+		
+		content: "\25BC";
+		
 		position: absolute;
+		top: $borderWidth + $padding;
+		right: $borderWidth + $padding;
+	}
+	
+	
+	> .current.expanded:after {
 		
-		background-color: white;
+		content: "\25B2";
 		
-		padding: 0;
-		margin: 0;
+		position: absolute;
+		top: $borderWidth + $padding;
+		right: $borderWidth + $padding;
+	}
+	
+	
+	> .ddlist {
 		
 		display: none;
-		
 		z-index: 100;
 		
+		position: absolute;
+		
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		
+		
 		> .dditem {
+			
+			background-color: $bgColor;
+			
 			list-style-type: none;
 			
+			box-sizing: border-box;
+			
+			width: 100%;
+			padding: $padding;
+			border: $borderWidth $borderColor solid;
+			border-bottom: none;
+		}
+		
+		> .dditem:first-child {
+			border-top: none;
+		}
+		
+		> .dditem:last-child {
+			border-bottom: $borderWidth $borderColor solid;
 		}
 		
 		> .dditem:HOVER {
-			background-color: $bgColor;
+			background-color: $bgColorActive;
 		}
 		
 	}
@@ -36,7 +90,7 @@ $imageWidth: 32px;
 
 
 .-status-selected {
-	background-color: $bgColor;
+	background-color: $bgColorActive;
 }
 
 .-clear-both {
@@ -46,10 +100,10 @@ $imageWidth: 32px;
 
 .-float-side1 {
 	float: left;
-	width: $imageWidth;
+	margin-right: $padding / 2;
 }
 	
 .-float-side2 {
-	float: right;
-	width: $width - $imageWidth;
+	float: left;
+	margin-left: $padding / 2;
 }

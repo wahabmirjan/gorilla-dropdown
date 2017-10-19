@@ -40,7 +40,7 @@
 				
 				// Create a div element with class "current"
 				var divCurrent = $("<div>",{
-					class: "current",
+					class: "current collapsed",
 					text: "Select"
 				});
 				
@@ -190,6 +190,8 @@
 					// Toggle the element selected
 					$(this).closest(dropdownClassSelector).find(".ddlist").toggle();
 					
+					// Toggle the class for the currently selected item
+					$(this).closest(dropdownClassSelector).find(".current").toggleClass("collapsed expanded");
 					
 					// Get the index of the current element in relation to all other similar dropdown elements
 					var index = $(dropdownClassSelector).index( $(this).closest(dropdownClassSelector) );
@@ -218,6 +220,10 @@
 						if (($(event.target).closest(dropdownClassSelector).length==0) || 
 							(dataFromSessionStorage.indexOfLastDropdownClicked != event.data.indexOfLastDropdownClicked)) {
 							
+							// Set the class for the currently selected item
+							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current").removeClass("expanded");
+							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current").addClass("collapsed");
+							
 							// Hide the dropdown menu
 							// Details: https://stackoverflow.com/questions/46779305/retrieving-the-id-guid-for-a-dom-element/46779437
 							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".ddlist").hide();
@@ -240,9 +246,14 @@
 					// Get the HTML of the item to the current item
 					$(this).closest(dropdownClassSelector).find(".current").html( $(this).html() );
 					
+					// Set the class for the currently selected item
+					$(this).closest(dropdownClassSelector).find(".current").removeClass("expanded");
+					$(this).closest(dropdownClassSelector).find(".current").addClass("collapsed");
+					
 					
 					// Hide the drop down
 					$(this).closest(dropdownClassSelector).find(".ddlist").hide();
+					
 					
 					// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
 					$(this).addClass("-status-selected").siblings().removeClass("-status-selected");
