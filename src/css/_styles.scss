@@ -22,27 +22,18 @@ $padding: 5px;
 		border-width: $borderWidth;
 		border-style: solid;
 		
+		.arrow {
+			display: inline;
+		}
+		
+		.arrow-position {
+			position: absolute;
+			top: $borderWidth + $padding;
+			right: $borderWidth + $padding;
+		}
+		
 	}
 	
-	
-	> .current.collapsed:after {
-		
-		content: "\25BC";
-		
-		position: absolute;
-		top: $borderWidth + $padding;
-		right: $borderWidth + $padding;
-	}
-	
-	
-	> .current.expanded:after {
-		
-		content: "\25B2";
-		
-		position: absolute;
-		top: $borderWidth + $padding;
-		right: $borderWidth + $padding;
-	}
 	
 	
 	> .ddlist {
@@ -71,20 +62,17 @@ $padding: 5px;
 			border-style: solid;
 			
 			border-top: none;
-		}
-		
-		
-		> .dditem:HOVER {
-			background-color: $hoverColor;
+			
+			
+			.arrow {
+				display: none;
+			}
 		}
 		
 	}
 }
 
 
-.-status-selected {
-	background-color: $hoverColor;
-}
 
 .-clear-both {
 	clear: both;

@@ -14,17 +14,17 @@
 		
 		
 		
-		Into the following:
+		Into the following (note this does not include css styling):
 		
 		<div id="s2" class="some-class gorilla-dropdown">
 			
-			<div class="container" style="width: 300px;">
-				
-			<div class="current collapsed" style="background-color:rgb(255, 255, 255); border-color: rgb(192, 192, 192);">Select</div>
+			<div class="container">
+			
+			<div class="current collapsed">Select<span class="arrow arrow-position">&#x25bc</span></div>
 				
 				<ul class="ddlist">
 					
-					<li class="dditem" style="border-color: rgb(192, 192, 192);">
+					<li class="dditem">
 						<div class="-float-side1">
 							<img src="http://url/to/saab/logo">
 						</div>
@@ -35,10 +35,11 @@
 						</div>
 						
 						<input value="saab" type="hidden">
+						<span class="arrow arrow-position">&#x25bc</span>
 						<div class="-clear-both"></div>
 					</li>
 					
-					<li class="dditem" style="background-color:rgb(255, 255, 255); border-color: rgb(192, 192, 192);">
+					<li class="dditem">
 						<div class="-float-side1">
 							<img src="http://url/to/mercedes/logo">
 						</div>
@@ -47,6 +48,7 @@
 							<div>Description about Toyota</div>
 						</div>
 						<input value="mercedes" type="hidden">
+						<span class="arrow arrow-position">&#x25bc</span>
 						<div class="-clear-both"></div>
 					</li>
 					
@@ -62,9 +64,12 @@
 		var settings = $.extend({
 			
 			// These are the defaults:
-			backgroundColor: "#ffffff",
-			borderColor: "#c0c0c0",
-			width: 300
+			backgroundColor		: "#ffffff",
+			borderColor			: "#c0c0c0",
+			dropdownArrowDown	: "&#x25bc;",
+			dropdownArrowUp		: "&#x25b2;",
+			hoverColor			: "#f0f8ff",
+			width				: 300
 			
 		}, options);
 		
@@ -110,7 +115,7 @@
 				
 				// Create a div element with class "current"
 				var divCurrent = $("<div>",{
-					class: "current collapsed",
+					class: "current",
 					text: "Select",
 					css: {
 						"background-color"	: settings.backgroundColor,
@@ -118,6 +123,18 @@
 					}
 				});
 				
+				
+				
+				// Creating and append the "arrow" span, with initial "down" arrow
+				var spanInitialArrow = $("<span>", {
+					class: "arrow arrow-position",
+				});
+				
+				// Down arrow text is entered via the .html() method rather than the "text" property at span creation ...
+				// ... because if we do it as a property via class creation, then we only get the text displayed, not the html entity equivallent
+				$(spanInitialArrow).html(settings.dropdownArrowDown);
+				
+				$(divCurrent).append(spanInitialArrow);
 				
 				
 				// Append divContainer to divWrapper
@@ -231,6 +248,19 @@
 					
 					
 					
+					// Create and append the arrow span, with initial "down" arrow
+					var spanArrow = $("<span>", {
+						class: "arrow arrow-position",
+					});
+					
+					// Down arrow text is entered via the .html() method rather than the "text" property at span creation ...
+					// ... because if we do it as a property via class creation, then we only get the text displayed, not the html entity equivallent
+					$(spanArrow).html(settings.dropdownArrowDown);
+					
+					$(li).append(spanArrow);
+					
+					
+					
 					
 					// Append the clear div
 					var divClear = $("<div>", {
@@ -268,8 +298,17 @@
 					// Toggle the element selected
 					$(this).closest(dropdownClassSelector).find(".ddlist").toggle();
 					
-					// Toggle the class for the currently selected item
-					$(this).closest(dropdownClassSelector).find(".current").toggleClass("collapsed expanded");
+					
+					// Toggle the arrow between "down" and "up"
+					// Some details/ideas:
+					// https://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery
+					// https://stackoverflow.com/questions/14482492/how-to-toggle-data-attribute-with-jquery
+					
+					var arrowToCompare = $('<div/>').html(settings.dropdownArrowDown).text();
+					var arrowToDisplay = $(this).closest(dropdownClassSelector).find(".current .arrow").html() == arrowToCompare ? settings.dropdownArrowUp : settings.dropdownArrowDown;
+					$(this).closest(dropdownClassSelector).find(".current .arrow").html(arrowToDisplay);
+					
+					
 					
 					// Get the index of the current element in relation to all other similar dropdown elements
 					var index = $(dropdownClassSelector).index( $(this).closest(dropdownClassSelector) );
@@ -298,9 +337,8 @@
 						if (($(event.target).closest(dropdownClassSelector).length==0) || 
 							(dataFromSessionStorage.indexOfLastDropdownClicked != event.data.indexOfLastDropdownClicked)) {
 							
-							// Set the class for the currently selected item
-							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current").removeClass("expanded");
-							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current").addClass("collapsed");
+							// Set the arrow to the down position
+							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current .arrow").html(settings.dropdownArrowDown);
 							
 							// Hide the dropdown menu
 							// Details: https://stackoverflow.com/questions/46779305/retrieving-the-id-guid-for-a-dom-element/46779437
@@ -324,17 +362,25 @@
 					// Get the HTML of the item to the current item
 					$(this).closest(dropdownClassSelector).find(".current").html( $(this).html() );
 					
-					// Set the class for the currently selected item
-					$(this).closest(dropdownClassSelector).find(".current").removeClass("expanded");
-					$(this).closest(dropdownClassSelector).find(".current").addClass("collapsed");
-					
-					
 					// Hide the drop down
 					$(this).closest(dropdownClassSelector).find(".ddlist").hide();
 					
 					
 					// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
-					$(this).addClass("-status-selected").siblings().removeClass("-status-selected");
+					$(this).addClass("-pseudo-selected").css("background-color", settings.hoverColor).siblings().removeClass("-pseudo-selected").css("background-color", settings.backgroundColor);
+					
+				});
+				
+				
+				
+				// Hover over items;
+				$(divWrapper).find(".dditem").hover(function () {
+					$(this).css("background-color", settings.hoverColor);
+				}, function () {
+					if (!$(this).hasClass("-pseudo-selected")){
+						$(this).css("background-color", settings.backgroundColor);
+					}
+					
 				});
 				
 				
