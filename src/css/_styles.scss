@@ -1,10 +1,7 @@
 
-$bgColor: white;
-$bgColorActive: #9acd32;
-$borderColor: #C0C0C0;
+$hoverColor: #9acd32;
 
-$width: 300px;
-$borderWidth: 1px;
+$borderWidth: 10px;
 $padding: 5px;
 
 
@@ -20,8 +17,10 @@ $padding: 5px;
 		box-sizing: border-box;
 		
 		width: 100%;
-		border: $borderWidth $borderColor solid;
 		padding: $padding;
+		
+		border-width: $borderWidth;
+		border-style: solid;
 		
 	}
 	
@@ -60,28 +59,23 @@ $padding: 5px;
 		
 		> .dditem {
 			
-			background-color: $bgColor;
-			
 			list-style-type: none;
 			
 			box-sizing: border-box;
 			
 			width: 100%;
 			padding: $padding;
-			border: $borderWidth $borderColor solid;
-			border-bottom: none;
-		}
-		
-		> .dditem:first-child {
+			
+			
+			border-width: $borderWidth;
+			border-style: solid;
+			
 			border-top: none;
 		}
 		
-		> .dditem:last-child {
-			border-bottom: $borderWidth $borderColor solid;
-		}
 		
 		> .dditem:HOVER {
-			background-color: $bgColorActive;
+			background-color: $hoverColor;
 		}
 		
 	}
@@ -89,7 +83,7 @@ $padding: 5px;
 
 
 .-status-selected {
-	background-color: $bgColorActive;
+	background-color: $hoverColor;
 }
 
 .-clear-both {

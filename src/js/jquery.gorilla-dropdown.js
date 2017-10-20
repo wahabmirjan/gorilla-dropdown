@@ -20,11 +20,11 @@
 			
 			<div class="container" style="width: 300px;">
 				
-			<div class="current collapsed" style="border-width: 1px;">Select</div>
+			<div class="current collapsed" style="background-color:rgb(255, 255, 255); border-color: rgb(192, 192, 192);">Select</div>
 				
 				<ul class="ddlist">
 					
-					<li class="dditem">
+					<li class="dditem" style="border-color: rgb(192, 192, 192);">
 						<div class="-float-side1">
 							<img src="http://url/to/saab/logo">
 						</div>
@@ -38,7 +38,7 @@
 						<div class="-clear-both"></div>
 					</li>
 					
-					<li class="dditem">
+					<li class="dditem" style="background-color:rgb(255, 255, 255); border-color: rgb(192, 192, 192);">
 						<div class="-float-side1">
 							<img src="http://url/to/mercedes/logo">
 						</div>
@@ -62,6 +62,8 @@
 		var settings = $.extend({
 			
 			// These are the defaults:
+			backgroundColor: "#ffffff",
+			borderColor: "#c0c0c0",
 			width: 300
 			
 		}, options);
@@ -72,7 +74,7 @@
 		var dropdownNamespace = "gorilla-dropdown";
 		var dropdownClassSelector = "." + dropdownNamespace;
 		
-				
+		
 		if (this.is("select")) {
 			
 			return this.each(function() {
@@ -97,7 +99,7 @@
 				var divContainer = $("<div>", {
 					class: "container",
 					css: {
-						width: settings.width + "px"
+						"width": settings.width + "px"
 					}
 				});
 				
@@ -109,7 +111,11 @@
 				// Create a div element with class "current"
 				var divCurrent = $("<div>",{
 					class: "current collapsed",
-					text: "Select"
+					text: "Select",
+					css: {
+						"background-color"	: settings.backgroundColor,
+						"border-color"		: settings.borderColor
+					}
 				});
 				
 				
@@ -131,7 +137,11 @@
 					
 					// Create an "li" elmenet
 					var li = $("<li>", {
-						class: "dditem"
+						class: "dditem",
+						css: {
+							"background-color"	: settings.backgroundColor,
+							"border-color"		: settings.borderColor
+						}
 					});
 					
 					// Get and set an image element
