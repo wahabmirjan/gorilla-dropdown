@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
-// var babel = require('gulp-babel');
+var babel = require('gulp-babel');
 var cleanCSS = require('gulp-clean-css');
 var cssbeautify = require('gulp-cssbeautify');
 var del = require('del');
@@ -68,7 +68,7 @@ gulp.task('build:css', ['clean:css'], function () {
 // Build JS
 gulp.task('build:js', ['clean:js', 'lint:js'], function() {
 	return gulp.src(SRC_JS)
-//			.pipe(babel())
+			.pipe(babel({presets: ['env']}))
 			.pipe(gulp.dest(DEST_JS))
 			.pipe(uglify({output: {comments:'some'}}))
 			.pipe(rename({suffix: '.min'}))
