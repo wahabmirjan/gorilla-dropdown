@@ -64,10 +64,10 @@
 		var settings = $.extend({
 			
 			// These are the defaults:
+			arrowDown			: "&#x25bc;",
+			arrowUp				: "&#x25b2;",
 			backgroundColor		: "#ffffff",
 			borderColor			: "#c0c0c0",
-			dropdownArrowDown	: "&#x25bc;",
-			dropdownArrowUp		: "&#x25b2;",
 			hoverColor			: "#f0f8ff",
 			width				: 300
 			
@@ -132,7 +132,7 @@
 				
 				// Down arrow text is entered via the .html() method rather than the "text" property at span creation ...
 				// ... because if we do it as a property via class creation, then we only get the text displayed, not the html entity equivallent
-				$(spanInitialArrow).html(settings.dropdownArrowDown);
+				$(spanInitialArrow).html(settings.arrowDown);
 				
 				$(divCurrent).append(spanInitialArrow);
 				
@@ -255,7 +255,7 @@
 					
 					// Down arrow text is entered via the .html() method rather than the "text" property at span creation ...
 					// ... because if we do it as a property via class creation, then we only get the text displayed, not the html entity equivallent
-					$(spanArrow).html(settings.dropdownArrowDown);
+					$(spanArrow).html(settings.arrowDown);
 					
 					$(li).append(spanArrow);
 					
@@ -304,8 +304,8 @@
 					// https://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery
 					// https://stackoverflow.com/questions/14482492/how-to-toggle-data-attribute-with-jquery
 					
-					var arrowToCompare = $('<div/>').html(settings.dropdownArrowDown).text();
-					var arrowToDisplay = $(this).closest(dropdownClassSelector).find(".current .arrow").html() == arrowToCompare ? settings.dropdownArrowUp : settings.dropdownArrowDown;
+					var arrowToCompare = $('<div/>').html(settings.arrowDown).text();
+					var arrowToDisplay = $(this).closest(dropdownClassSelector).find(".current .arrow").html() == arrowToCompare ? settings.arrowUp : settings.arrowDown;
 					$(this).closest(dropdownClassSelector).find(".current .arrow").html(arrowToDisplay);
 					
 					
@@ -338,7 +338,7 @@
 							(dataFromSessionStorage.indexOfLastDropdownClicked != event.data.indexOfLastDropdownClicked)) {
 							
 							// Set the arrow to the down position
-							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current .arrow").html(settings.dropdownArrowDown);
+							$(dropdownClassSelector).eq(event.data.indexOfLastDropdownClicked).find(".current .arrow").html(settings.arrowDown);
 							
 							// Hide the dropdown menu
 							// Details: https://stackoverflow.com/questions/46779305/retrieving-the-id-guid-for-a-dom-element/46779437
