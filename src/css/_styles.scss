@@ -1,11 +1,10 @@
 
 .container {
 	
-	position: relative;
-	
-	
 	
 	> .current {
+		
+		position: relative;
 		
 		box-sizing: border-box;
 		
@@ -22,7 +21,6 @@
 		display: none;
 		z-index: 100;
 		
-		position: absolute;
 		
 		width: 100%;
 		margin: 0;
