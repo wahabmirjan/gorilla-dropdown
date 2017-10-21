@@ -20,7 +20,10 @@
 			
 			<div class="container">
 			
-			<div class="current">Select<span class="arrow">&#x25bc</span></div>
+				<div class="current">
+					<div>Select</div>
+					<span class="arrow">&#x25bc</span>
+				</div>
 				
 				<ul class="ddlist">
 					
@@ -35,7 +38,6 @@
 						</div>
 						
 						<input value="saab" type="hidden">
-						<span class="arrow">&#x25bc</span>
 						<div class="-clear-both"></div>
 					</li>
 					
@@ -48,7 +50,6 @@
 							<div>Description about Toyota</div>
 						</div>
 						<input value="mercedes" type="hidden">
-						<span class="arrow">&#x25bc</span>
 						<div class="-clear-both"></div>
 					</li>
 					
@@ -64,14 +65,22 @@
 		var settings = $.extend({
 			
 			// These are the defaults:
-			arrowDown			: "&#x25bc;",
-			arrowUp				: "&#x25b2;",
-			backgroundColor		: "#ffffff",
-			borderColor			: "#c0c0c0",
-			borderWidth			: 10,
-			hoverColor			: "#f0f8ff",
-			padding				: 5,
-			width				: 300
+			arrowColor				: "#808080",
+			arrowDown				: "&#x25bc;",
+			arrowSize				: 14,
+			arrowUp					: "&#x25b2;",
+			backgroundColor			: "#ffffff",
+			borderColor				: "#c0c0c0",
+			borderWidth				: 1,
+			hoverColor				: "#f0f8ff",
+			padding					: 10,
+			placeholder				: "Select",
+			placeholderFontColor	: "#808080",
+			placeholderFontFamily	: "Verdana",
+			placeholderFontSize		: 14,
+			placeholderFontStyle	: "italic",
+			placeholderFontWeight	: "bold",
+			width					: 300
 			
 		}, options);
 		
@@ -118,7 +127,6 @@
 				// Create a div element with class "current"
 				var divCurrent = $("<div>",{
 					class: "current",
-					text: "Select",
 					css: {
 						"background-color"	: settings.backgroundColor,
 						"border-color"		: settings.borderColor,
@@ -129,21 +137,40 @@
 				
 				
 				
+				var divPlaceholder = $("<div>", {
+					class: "content",
+					text: settings.placeholder,
+					css: {
+						"color"			: settings.placeholderFontColor,
+						"font-family"	: settings.placeholderFontFamily,
+						"font-size"		: settings.placeholderFontSize,
+						"font-style"	: settings.placeholderFontStyle,
+						"font-weight"	: settings.placeholderFontWeight,
+					}
+				});
+				
+				$(divCurrent).append(divPlaceholder);
+				
+				
+				
+				
 				// Creating and append the "arrow" span, with initial "down" arrow
-				var spanInitialArrow = $("<span>", {
+				var spanArrow = $("<span>", {
 					class: "arrow",
 					css : {
-						position	: "absolute",
-						top			: settings.borderWidth + settings.padding + "px",
-						right		: settings.borderWidth + settings.padding + "px"
+						"color"		: settings.arrowColor,
+						"font-size"	: settings.arrowSize + "px",
+						"position"	: "absolute",
+						"right"		: settings.borderWidth + settings.padding + "px",
+						"top"		: settings.borderWidth + settings.padding + "px"
 					}
 				});
 				
 				// Down arrow text is entered via the .html() method rather than the "text" property at span creation ...
 				// ... because if we do it as a property via class creation, then we only get the text displayed, not the html entity equivallent
-				$(spanInitialArrow).html(settings.arrowDown);
+				$(spanArrow).html(settings.arrowDown);
 				
-				$(divCurrent).append(spanInitialArrow);
+				$(divCurrent).append(spanArrow);
 				
 				
 				// Append divContainer to divWrapper
@@ -206,7 +233,7 @@
 						var side2 = $("<div>", {
 							css: {
 								"float"			: "left",
-								"margin-left"	: (settings.ppadding / 2) + "px"
+								"margin-left"	: (settings.padding / 2) + "px",
 							}
 						});
 						
@@ -264,22 +291,6 @@
 					});
 					
 					
-					
-					// Create and append the arrow span, with initial "down" arrow
-					var spanArrow = $("<span>", {
-						class: "arrow",
-						css : {
-							position	: "absolute",
-							top			: settings.borderWidth + settings.padding + "px",
-							right		: settings.borderWidth + settings.padding + "px"
-						}
-					});
-					
-					// Down arrow text is entered via the .html() method rather than the "text" property at span creation ...
-					// ... because if we do it as a property via class creation, then we only get the text displayed, not the html entity equivallent
-					$(spanArrow).html(settings.arrowDown);
-					
-					$(li).append(spanArrow);
 					
 					
 					
@@ -381,8 +392,22 @@
 				// Selecting an item from the dropdown list
 				$(divWrapper).find(".dditem").click(function () {
 					
-					// Get the HTML of the item to the current item
-					$(this).closest(dropdownClassSelector).find(".current").html( $(this).html() );
+					// Get the HTML of the selected item to the current item
+					$(this).closest(dropdownClassSelector).find(".current .content").remove();
+					
+					var newCurrentDiv = $("<div>", {
+						class: "content"
+					});
+					
+					$(newCurrentDiv).append($(this).html());
+					
+					$(this).closest(dropdownClassSelector).find(".current").append(newCurrentDiv);
+					
+					
+					
+					// Set the arrow to the down position
+					$(this).closest(dropdownClassSelector).find(".current .arrow").html(settings.arrowDown);
+					
 					
 					// Hide the drop down
 					$(this).closest(dropdownClassSelector).find(".ddlist").hide();
