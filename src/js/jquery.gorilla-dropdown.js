@@ -72,14 +72,28 @@
 			backgroundColor			: "#ffffff",
 			borderColor				: "#c0c0c0",
 			borderWidth				: 1,
+			descriptionFontColor	: "#000000",
+			descriptionFontFamily	: "Verdana",
+			descriptionFontSize		: 12,
+			descriptionFontStyle	: "normal",
+			descriptionFontVariant	: "small-caps",
+			descriptionFontWeight	: "normal",
 			hoverColor				: "#f0f8ff",
+			imageLocation			: "right",
 			padding					: 10,
 			placeholder				: "Select",
 			placeholderFontColor	: "#808080",
 			placeholderFontFamily	: "Verdana",
 			placeholderFontSize		: 14,
 			placeholderFontStyle	: "italic",
+			placeholderFontVariant	: "normal",
 			placeholderFontWeight	: "bold",
+			textFontColor			: "#000000",
+			textFontFamily			: "Verdana",
+			textFontSize			: 14,
+			textFontStyle			: "normal",
+			textFontVariant			: "normal",
+			textFontWeight			: "bold",
 			width					: 300
 			
 		}, options);
@@ -145,6 +159,7 @@
 						"font-family"	: settings.placeholderFontFamily,
 						"font-size"		: settings.placeholderFontSize,
 						"font-style"	: settings.placeholderFontStyle,
+						"font-variant"	: settings.placeholderFontVariant,
 						"font-weight"	: settings.placeholderFontWeight,
 					}
 				});
@@ -206,8 +221,9 @@
 						
 						var side1 = $("<div>", {
 							css: {
-								"float"			: "left",
-								"margin-right"	: (settings.padding / 2) + "px"
+								"float"			: settings.imageLocation,
+								"margin-right"	: settings.imageLocation == "left" ? (settings.padding / 2) + "px" : 0,
+								"margin-left"	: settings.imageLocation == "right" ? (settings.padding / 2) + "px" : 0
 							}
 						});
 						
@@ -233,7 +249,8 @@
 						var side2 = $("<div>", {
 							css: {
 								"float"			: "left",
-								"margin-left"	: (settings.padding / 2) + "px",
+								"margin-left"	: settings.imageLocation == "left" ? (settings.padding / 2) + "px" : 0,
+								"margin-right"	: settings.imageLocation == "right" ? (settings.padding / 2) + "px" : 0
 							}
 						});
 						
@@ -241,7 +258,16 @@
 						if (ddText != "") {
 							
 							var divText = $("<div>", {
-								text: ddText
+								text: ddText,
+								css: {
+									"color"			: settings.textFontColor,
+									"font-family"	: settings.textFontFamily,
+									"font-size"		: settings.textFontSize,
+									"font-style"	: settings.textFontStyle,
+									"font-variant"	: settings.textFontVariant,
+									"font-weight"	: settings.textFontWeight
+								}
+								
 							});
 							
 							$(side2).append(divText);
@@ -251,7 +277,15 @@
 						if (description != undefined) {
 							
 							var divDescription = $("<div>", {
-								text: description
+								text: description,
+								css: {
+									"color"			: settings.descriptionFontColor,
+									"font-family"	: settings.descriptionFontFamily,
+									"font-size"		: settings.descriptionFontSize,
+									"font-style"	: settings.descriptionFontStyle,
+									"font-variant"	: settings.descriptionFontVariant,
+									"font-weight"	: settings.descriptionFontWeight
+								}
 							});
 							
 							$(side2).append(divDescription);
