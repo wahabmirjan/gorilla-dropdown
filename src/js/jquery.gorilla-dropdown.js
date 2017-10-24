@@ -80,6 +80,7 @@
 					descriptionFontStyle	: "normal",
 					descriptionFontVariant	: "small-caps",
 					descriptionFontWeight	: "normal",
+					dropdownHeight			: "auto",
 					hoverColor				: "#f0f8ff",
 					imageLocation			: "left",
 					padding					: 10,
@@ -197,7 +198,10 @@
 						
 						// Create a  new "ul" element
 						var ul = $("<ul>", {
-							class: "ddlist"
+							class: "ddlist",
+							css: {
+								height: settings.dropdownHeight
+							}
 						});
 						
 						
