@@ -2,6 +2,8 @@
 	
 	var methods = {
 			
+			
+			// Initialize/set the dropdown
 			init: function (options) {
 				
 				
@@ -91,6 +93,7 @@
 					placeholderFontStyle	: "italic",
 					placeholderFontVariant	: "normal",
 					placeholderFontWeight	: "bold",
+					select					: -1,
 					textFontColor			: "#000000",
 					textFontFamily			: "Verdana",
 					textFontSize			: "14px",
@@ -360,6 +363,29 @@
 						$(divContainer).append(ul);
 						
 						
+						
+						// Default item selection based on user input
+						if ((settings.select >= 0) || ( $(divContainer).find(".ddlist .dditem").length <= settings.select )) {
+							
+							// Remove the old content
+							$(divCurrent).find(".content").remove();
+							
+							// Add new content div, with the content of the new selected index
+							var newContentDiv = $("<div>", {
+								class: "content"
+							});
+							
+							$(newContentDiv).append($(ul).children(".dditem").eq(settings.select).html());
+							
+							// Append the new div to our DOM
+							$(divCurrent).append(newContentDiv);
+							
+							// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
+							$(ul).children(".dditem").eq(settings.select).addClass("selected").css("background-color", settings.hoverColor).siblings().removeClass("selected").css("background-color", settings.backgroundColor);
+						}
+						
+						
+						
 						// Replace the select element and its children with the newly created li element
 						$(this).replaceWith(divWrapper);
 						
@@ -439,13 +465,13 @@
 							// Get the HTML of the selected item to the current item
 							$(this).closest(dropdownClassSelector).find(".current .content").remove();
 							
-							var newCurrentDiv = $("<div>", {
+							var newContentDiv = $("<div>", {
 								class: "content"
 							});
 							
-							$(newCurrentDiv).append($(this).html());
+							$(newContentDiv).append($(this).html());
 							
-							$(this).closest(dropdownClassSelector).find(".current").append(newCurrentDiv);
+							$(this).closest(dropdownClassSelector).find(".current").append(newContentDiv);
 							
 							
 							
@@ -484,6 +510,8 @@
 			
 			
 			
+			
+			// Return the details of the selected element
 			selected: function () {
 				
 				// Get the index of the selected element in relation to all other similar dropdown elements
