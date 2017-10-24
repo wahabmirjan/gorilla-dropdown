@@ -24,7 +24,31 @@ $(function() {
 //	$("select").gorillaDropdown();
 	
 	
+	var s3Options = {
+			dropdownHeight	: "200px",
+			imageLocation	: "right",
+			padding			: 8,
+			select			: 0,
+			width			: 300
+	};
 	
+	$("#s3").gorillaDropdown(s3Options);
+	
+	
+	
+	
+	var s4Options = {
+			arrowDown		: "",
+			arrowUp			: "",
+			dropdownHeight	: "200px",
+			imageLocation	: "right",
+			padding			: 8,
+			select			: 0,
+//			textFontWeight	: "normal",
+			width			: 260
+	};
+	
+	$("#s4").gorillaDropdown(s4Options);
 	
 	
 	
