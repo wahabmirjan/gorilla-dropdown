@@ -10,6 +10,8 @@
 	
 	var methods = {
 			
+			
+			// Initialize/set the dropdown
 			init: function (options) {
 				
 				
@@ -77,30 +79,32 @@
 					// These are the defaults:
 					arrowColor				: "#808080",
 					arrowDown				: "&#x25bc;",
-					arrowSize				: 14,
+					arrowSize				: "14px",
 					arrowUp					: "&#x25b2;",
 					backgroundColor			: "#ffffff",
 					borderColor				: "#c0c0c0",
 					borderWidth				: 1,
 					descriptionFontColor	: "#000000",
 					descriptionFontFamily	: "Verdana",
-					descriptionFontSize		: 12,
+					descriptionFontSize		: "12px",
 					descriptionFontStyle	: "normal",
 					descriptionFontVariant	: "small-caps",
 					descriptionFontWeight	: "normal",
+					dropdownHeight			: "auto",
 					hoverColor				: "#f0f8ff",
 					imageLocation			: "left",
 					padding					: 10,
 					placeholder				: "Select",
 					placeholderFontColor	: "#808080",
 					placeholderFontFamily	: "Verdana",
-					placeholderFontSize		: 14,
+					placeholderFontSize		: "14px",
 					placeholderFontStyle	: "italic",
 					placeholderFontVariant	: "normal",
 					placeholderFontWeight	: "bold",
+					select					: -1,
 					textFontColor			: "#000000",
 					textFontFamily			: "Verdana",
-					textFontSize			: 14,
+					textFontSize			: "14px",
 					textFontStyle			: "normal",
 					textFontVariant			: "normal",
 					textFontWeight			: "bold",
@@ -184,7 +188,7 @@
 							class: "arrow",
 							css : {
 								"color"		: settings.arrowColor,
-								"font-size"	: settings.arrowSize + "px",
+								"font-size"	: settings.arrowSize,
 								"position"	: "absolute",
 								"right"		: settings.borderWidth + settings.padding + "px",
 								"top"		: settings.borderWidth + settings.padding + "px"
@@ -205,7 +209,10 @@
 						
 						// Create a  new "ul" element
 						var ul = $("<ul>", {
-							class: "ddlist"
+							class: "ddlist",
+							css: {
+								height: settings.dropdownHeight
+							}
 						});
 						
 						
@@ -239,7 +246,7 @@
 								
 								var img = $("<img>", {
 									class: "image",
-									imgsrc: imgsrc
+									src: imgsrc
 								});
 								
 								
@@ -364,6 +371,29 @@
 						$(divContainer).append(ul);
 						
 						
+						
+						// Default item selection based on user input
+						if ((settings.select >= 0) || ( $(divContainer).find(".ddlist .dditem").length <= settings.select )) {
+							
+							// Remove the old content
+							$(divCurrent).find(".content").remove();
+							
+							// Add new content div, with the content of the new selected index
+							var newContentDiv = $("<div>", {
+								class: "content"
+							});
+							
+							$(newContentDiv).append($(ul).children(".dditem").eq(settings.select).html());
+							
+							// Append the new div to our DOM
+							$(divCurrent).append(newContentDiv);
+							
+							// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
+							$(ul).children(".dditem").eq(settings.select).addClass("selected").css("background-color", settings.hoverColor).siblings().removeClass("selected").css("background-color", settings.backgroundColor);
+						}
+						
+						
+						
 						// Replace the select element and its children with the newly created li element
 						$(this).replaceWith(divWrapper);
 						
@@ -443,13 +473,13 @@
 							// Get the HTML of the selected item to the current item
 							$(this).closest(dropdownClassSelector).find(".current .content").remove();
 							
-							var newCurrentDiv = $("<div>", {
+							var newContentDiv = $("<div>", {
 								class: "content"
 							});
 							
-							$(newCurrentDiv).append($(this).html());
+							$(newContentDiv).append($(this).html());
 							
-							$(this).closest(dropdownClassSelector).find(".current").append(newCurrentDiv);
+							$(this).closest(dropdownClassSelector).find(".current").append(newContentDiv);
 							
 							
 							
@@ -488,6 +518,8 @@
 			
 			
 			
+			
+			// Return the details of the selected element
 			selected: function () {
 				
 				// Get the index of the selected element in relation to all other similar dropdown elements
