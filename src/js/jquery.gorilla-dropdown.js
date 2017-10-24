@@ -238,7 +238,7 @@
 								
 								var img = $("<img>", {
 									class: "image",
-									imgsrc: imgsrc
+									src: imgsrc
 								});
 								
 								
