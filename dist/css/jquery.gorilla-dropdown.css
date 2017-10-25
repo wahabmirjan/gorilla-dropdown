@@ -3,6 +3,10 @@
     vertical-align: top;
 }
 
+.gorilla-dropdown .container {
+    position: relative;
+}
+
 .gorilla-dropdown .container > .current {
     position: relative;
     -webkit-box-sizing: border-box;
@@ -12,6 +16,7 @@
 }
 
 .gorilla-dropdown .container > .ddlist {
+    position: absolute;
     display: none;
     z-index: 100;
     width: 100%;
