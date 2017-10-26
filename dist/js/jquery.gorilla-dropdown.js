@@ -1,7 +1,7 @@
 /**
  * gorilla-dropdown
  * Description - A jQuery plugin for custom drop-down list, allowing the display of text, images, and maybe more...
- * @version v0.1.1
+ * @version v0.2.0
  * @link https://github.com/wahabmirjan/gorilla-dropdown#readme
  * @license MIT
  */
@@ -90,9 +90,11 @@
 					descriptionFontStyle	: "normal",
 					descriptionFontVariant	: "small-caps",
 					descriptionFontWeight	: "normal",
+					displayArrow			: "inline",
 					dropdownHeight			: "auto",
 					hoverColor				: "#f0f8ff",
 					imageLocation			: "left",
+					onSelect				: function () {},
 					padding					: 10,
 					placeholder				: "Select",
 					placeholderFontColor	: "#808080",
@@ -188,6 +190,7 @@
 							class: "arrow",
 							css : {
 								"color"		: settings.arrowColor,
+								"display"	: settings.displayArrow,
 								"font-size"	: settings.arrowSize,
 								"position"	: "absolute",
 								"right"		: settings.borderWidth + settings.padding + "px",
@@ -493,6 +496,12 @@
 							
 							// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
 							$(this).addClass("selected").css("background-color", settings.hoverColor).siblings().removeClass("selected").css("background-color", settings.backgroundColor);
+							
+							
+							// Call the callback function
+							if (typeof settings.onSelect == "function") {
+								settings.onSelect();
+							}
 							
 						});
 						
