@@ -82,6 +82,7 @@
 					descriptionFontStyle	: "normal",
 					descriptionFontVariant	: "small-caps",
 					descriptionFontWeight	: "normal",
+					displayArrow			: "inline",
 					dropdownHeight			: "auto",
 					hoverColor				: "#f0f8ff",
 					imageLocation			: "left",
@@ -180,6 +181,7 @@
 							class: "arrow",
 							css : {
 								"color"		: settings.arrowColor,
+								"display"	: settings.displayArrow,
 								"font-size"	: settings.arrowSize,
 								"position"	: "absolute",
 								"right"		: settings.borderWidth + settings.padding + "px",
