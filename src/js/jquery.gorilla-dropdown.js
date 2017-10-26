@@ -86,6 +86,7 @@
 					dropdownHeight			: "auto",
 					hoverColor				: "#f0f8ff",
 					imageLocation			: "left",
+					onSelect				: function () {},
 					padding					: 10,
 					placeholder				: "Select",
 					placeholderFontColor	: "#808080",
@@ -487,6 +488,12 @@
 							
 							// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
 							$(this).addClass("selected").css("background-color", settings.hoverColor).siblings().removeClass("selected").css("background-color", settings.backgroundColor);
+							
+							
+							// Call the callback function
+							if (typeof settings.onSelect == "function") {
+								settings.onSelect();
+							}
 							
 						});
 						
