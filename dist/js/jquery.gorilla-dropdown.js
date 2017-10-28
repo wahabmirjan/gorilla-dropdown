@@ -1,7 +1,7 @@
 /**
  * gorilla-dropdown
  * Description - A jQuery plugin for custom drop-down list, allowing the display of text, images, and maybe more...
- * @version v0.2.0
+ * @version v0.3.0
  * @link https://github.com/wahabmirjan/gorilla-dropdown#readme
  * @license MIT
  */

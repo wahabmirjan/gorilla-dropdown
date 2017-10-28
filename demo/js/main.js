@@ -50,7 +50,8 @@ $(function() {
 	
 	$("#s4").gorillaDropdown(s4Options);
 	
-	
+	$("#s4").gorillaDropdown("select", {"index": 4});
+//	$("#s4").gorillaDropdown("select", {"value": "Reds"});
 	
 	
 	$('#get-selected').on('click', function () {

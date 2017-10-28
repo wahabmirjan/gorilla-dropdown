@@ -1,6 +1,6 @@
 {
   "name": "gorilla-dropdown",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A jQuery plugin for custom drop-down list, allowing the display of text, images, and maybe more...",
   "repository": {
     "type": "git",
