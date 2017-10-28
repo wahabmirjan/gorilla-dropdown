@@ -8,6 +8,8 @@
 
 ;(function ($) {
 	
+	var dropdownNamespace = "gorilla-dropdown";
+	
 	var methods = {
 			
 			
@@ -117,7 +119,6 @@
 				
 				
 				// This is the name of the CSS namespace, so we do not have CSS naming conflicts
-				var dropdownNamespace = "gorilla-dropdown";
 				var dropdownClassSelector = "." + dropdownNamespace;
 				
 				
@@ -137,9 +138,11 @@
 							$(divWrapper).attr(attrib.name, attrib.value);
 						});
 						
-						
+						// Add the gorilla namespace (as a class name)
 						$(divWrapper).addClass(dropdownNamespace);
 						
+						// Attache the dataobject containing all the properties to the DOM element (this will help us in using the object data in future)
+						$(divWrapper).data(dropdownNamespace, settings);
 						
 						
 						var divContainer = $("<div>", {
@@ -376,7 +379,7 @@
 						
 						
 						// Default item selection based on user input
-						if ((settings.select >= 0) || ( $(divContainer).find(".ddlist .dditem").length <= settings.select )) {
+						if ((settings.select >= 0) || ( settings.select < $(divContainer).find(".ddlist .dditem").length )) {
 							
 							// Remove the old content
 							$(divCurrent).find(".content").remove();
@@ -527,6 +530,62 @@
 			
 			
 			
+			select: function (options) {
+				
+				// Set the value of "index" based on user input 
+				var index;
+				 
+				if ("index" in options) {
+					
+					index = options.index;
+					
+					if (index < 0) {
+						index = 0;
+					}
+					
+					else if (index > $(this).find(".ddlist .dditem").length) {
+						index = $(this).find(".ddlist .dditem").length - 1;
+					}
+					
+				}
+				
+				else if ("value" in options) {
+					
+					index = $(this).find(".ddlist .dditem :input.value[value='" + options.value + "']").closest(".dditem").index();
+					
+				}
+				
+				
+				// Get the object settings from the data object
+				var settings = $(this).data(dropdownNamespace);
+				
+				// Update the settings object
+				settings.select = index;
+				
+				// Remove the old content
+				$(this).find(".current .content").remove();
+				
+				// Add new content div, with the content of the new selected index
+				var newContentDiv = $("<div>", {
+					class: "content"
+				});
+				
+				$(newContentDiv).append($(this).find(".ddlist .dditem").eq(settings.select).html());
+				
+				// Append the new div to the "current" DOM
+				$(this).find(".current").append(newContentDiv);
+				
+				// Set the item as "selected" in the drop down, and remove the "selected" class from all other siblings (so only one item is selected)
+				$(this).find(".ddlist .dditem").eq(settings.select).addClass("selected").css("background-color", settings.hoverColor).siblings().removeClass("selected").css("background-color", settings.backgroundColor);
+				
+				// Update the data object
+				$(this).data(dropdownNamespace, settings);
+				
+			},
+			
+			
+			
+			
 			
 			// Return the details of the selected element
 			selected: function () {
@@ -565,7 +624,7 @@
 		// Details here: https://stackoverflow.com/questions/1117086/how-to-create-a-jquery-plugin-with-methods
 		
 		if (methods[methodsOrOptions]) {
-            return methods[ methodsOrOptions ].apply(this, Array.prototype.slice.call(arguments, 1));
+            return methods[methodsOrOptions].apply(this, Array.prototype.slice.call(arguments, 1));
 		}
 		
 		else if (typeof methodsOrOptions === "object" || !methodsOrOptions) {
